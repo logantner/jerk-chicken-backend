@@ -16,7 +16,9 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public User login(@RequestBody String user_name) {
-		return us.login(user_name);
+	public User login(@RequestBody User user) {
+		
+		System.out.println(user.getUserName());
+		return us.login(user.getUserName());
 	}
 }
