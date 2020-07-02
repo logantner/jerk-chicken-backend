@@ -14,7 +14,11 @@ public class UserService {
 
 	public User login(String user_name) {
 		User u = new User();
-		u.setUserName(user_name.substring(user_name.indexOf('=')+1));
+		u.setUserName(parseObject(user_name));
 		return ur.findOneByUserName(u.getUserName());
+	}
+	
+	public String parseObject(String s) {
+		return s.substring(s.indexOf('=')+1);
 	}
 }

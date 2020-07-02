@@ -8,4 +8,5 @@ import com.jerk.chicken.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	public User findOneByUserName(String userName);
+	public User findOneByUserNameAndPassword(String userName, String password);
 }

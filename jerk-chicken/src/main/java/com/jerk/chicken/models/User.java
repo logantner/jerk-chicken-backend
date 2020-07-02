@@ -40,8 +40,9 @@ public class User implements Serializable{
 	private List<UserRole> userRoles;
 	
 	
-	@OneToMany(mappedBy="owner", fetch = FetchType.EAGER)
-	private List<Recipe> ownedRecipes;
+//	@OneToMany(mappedBy="id", fetch = FetchType.EAGER)
+//	@Fetch(FetchMode.SELECT)
+	private List<Integer> ownedRecipes;
 	
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
@@ -59,7 +60,7 @@ public class User implements Serializable{
 		this.favoriteRecipes = new ArrayList<>();
 	}
 
-	public User(int id, String userName, String password, List<UserRole> userRoles, List<Recipe> ownedRecipes,
+	public User(int id, String userName, String password, List<UserRole> userRoles, List<Integer> ownedRecipes,
 			List<UserRecipe> favoriteRecipes) {
 		super();
 		this.id = id;
@@ -102,11 +103,11 @@ public class User implements Serializable{
 		this.userRoles = userRoles;
 	}
 
-	public List<Recipe> getOwnedRecipes() {
+	public List<Integer> getOwnedRecipes() {
 		return ownedRecipes;
 	}
 
-	public void setOwnedRecipes(List<Recipe> ownedRecipes) {
+	public void setOwnedRecipes(List<Integer> ownedRecipes) {
 		this.ownedRecipes = ownedRecipes;
 	}
 

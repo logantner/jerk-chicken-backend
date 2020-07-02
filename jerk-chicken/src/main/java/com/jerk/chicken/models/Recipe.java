@@ -25,9 +25,9 @@ public class Recipe implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne
-	@JoinColumn(name="owner_id")
-	private User owner;
+//	@ManyToOne
+//	@JoinColumn(name="owner_id")
+	private Integer owner;
 	
 	private String name;
 	
@@ -47,7 +47,7 @@ public class Recipe implements Serializable{
 		super();
 	}
 
-	public Recipe(int id, User owner, String name, List<Step> steps, List<RecipeUnitIngredient> recipeUnitIngredients, int prepTime, int cookTime) {
+	public Recipe(int id, int owner, String name, List<Step> steps, List<RecipeUnitIngredient> recipeUnitIngredients, int prepTime, int cookTime) {
 		super();
 		this.id = id;
 		this.owner = owner;
@@ -66,11 +66,11 @@ public class Recipe implements Serializable{
 		this.id = id;
 	}
 
-	public User getOwner() {
+	public int getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 
