@@ -42,7 +42,7 @@ public class User implements Serializable{
 	
 //	@OneToMany(mappedBy="id", fetch = FetchType.EAGER)
 //	@Fetch(FetchMode.SELECT)
-	private List<Integer> ownedRecipes;
+//	private List<Integer> ownedRecipes;
 	
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
@@ -56,18 +56,18 @@ public class User implements Serializable{
 		this.userName = username;
 		this.password = password;
 		this.userRoles = new ArrayList<>();
-		this.ownedRecipes = new ArrayList<>();
+		//this.ownedRecipes = new ArrayList<>();
 		this.favoriteRecipes = new ArrayList<>();
 	}
 
-	public User(int id, String userName, String password, List<UserRole> userRoles, List<Integer> ownedRecipes,
+	public User(int id, String userName, String password, List<UserRole> userRoles, 
 			List<UserRecipe> favoriteRecipes) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.userRoles = userRoles;
-		this.ownedRecipes = ownedRecipes;
+		//this.ownedRecipes = ownedRecipes;
 		this.favoriteRecipes = favoriteRecipes;
 	}
 
@@ -103,13 +103,13 @@ public class User implements Serializable{
 		this.userRoles = userRoles;
 	}
 
-	public List<Integer> getOwnedRecipes() {
-		return ownedRecipes;
-	}
-
-	public void setOwnedRecipes(List<Integer> ownedRecipes) {
-		this.ownedRecipes = ownedRecipes;
-	}
+//	public List<Integer> getOwnedRecipes() {
+//		return ownedRecipes;
+//	}
+//
+//	public void setOwnedRecipes(List<Integer> ownedRecipes) {
+//		this.ownedRecipes = ownedRecipes;
+//	}
 
 	public List<UserRecipe> getFavoriteRecipes() {
 		return favoriteRecipes;
@@ -143,8 +143,8 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", userRoles=" + userRoles + ", ownedRecipes="
-				+ ownedRecipes + ", favoriteRecipes=" + favoriteRecipes + "]";
+		return "User [id=" + id + ", userName=" + userName + ", userRoles=" + userRoles 
+				+ ", favoriteRecipes=" + favoriteRecipes + "]";
 	}
 	
 	
