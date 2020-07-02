@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 /**
  * 
  * @author James
- *
+ * @model
  */
 @Entity
 @Component
