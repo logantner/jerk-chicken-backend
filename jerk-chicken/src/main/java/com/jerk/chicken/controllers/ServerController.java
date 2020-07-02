@@ -5,6 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 
+ * @author James
+ *	<h2>Server Up test</h2>
+ *
+ */
 @Controller
 @RequestMapping("/server")
 public class ServerController {
