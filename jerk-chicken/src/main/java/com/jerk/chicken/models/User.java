@@ -21,6 +21,10 @@ import org.springframework.stereotype.Component;
  * @author James
  * @model
  * <h2>User Model</h2>
+ * <h4></h4>
+ * <ul>
+ * 	<li>id - generated</li>
+ * </ul>
  */
 @Entity
 @Component
