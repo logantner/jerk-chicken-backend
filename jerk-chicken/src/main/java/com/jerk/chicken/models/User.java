@@ -1,6 +1,7 @@
 package com.jerk.chicken.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -48,6 +49,14 @@ public class User implements Serializable{
 
 	public User() {
 		super();
+	}
+	
+	public User(String username, String password) {
+		this.userName = username;
+		this.password = password;
+		this.userRoles = new ArrayList<>();
+		this.ownedRecipes = new ArrayList<>();
+		this.favoriteRecipes = new ArrayList<>();
 	}
 
 	public User(int id, String userName, String password, List<UserRole> userRoles, List<Recipe> ownedRecipes,
