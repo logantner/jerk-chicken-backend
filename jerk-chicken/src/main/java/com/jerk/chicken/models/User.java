@@ -16,7 +16,11 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * 
+ * @author James
+ *
+ */
 @Entity
 @Component
 @Table(name="jerk_user")
