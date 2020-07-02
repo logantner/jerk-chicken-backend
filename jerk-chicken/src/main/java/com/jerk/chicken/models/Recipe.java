@@ -38,18 +38,24 @@ public class Recipe implements Serializable{
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="recipe", fetch = FetchType.EAGER)
 	private List<RecipeUnitIngredient> recipeUnitIngredients;
+	
+	private int prepTime;
+	
+	private int cookTime;
 
 	public Recipe() {
 		super();
 	}
 
-	public Recipe(int id, User owner, String name, List<Step> steps, List<RecipeUnitIngredient> recipeUnitIngredients) {
+	public Recipe(int id, User owner, String name, List<Step> steps, List<RecipeUnitIngredient> recipeUnitIngredients, int prepTime, int cookTime) {
 		super();
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
 		this.steps = steps;
 		this.recipeUnitIngredients = recipeUnitIngredients;
+		this.prepTime = prepTime;
+		this.cookTime = cookTime;
 	}
 
 	public int getId() {
@@ -91,6 +97,22 @@ public class Recipe implements Serializable{
 	public void setRecipeUnitIngredients(List<RecipeUnitIngredient> recipeUnitIngredients) {
 		this.recipeUnitIngredients = recipeUnitIngredients;
 	}
+	
+	public int getPrepTime() {
+		return prepTime;
+	}
+
+	public void setPrepTime(int prepTime) {
+		this.prepTime = prepTime;
+	}
+
+	public int getCookTime() {
+		return cookTime;
+	}
+
+	public void setCookTime(int cookTime) {
+		this.cookTime = cookTime;
+	}
 
 	@Override
 	public int hashCode() {
@@ -117,9 +139,9 @@ public class Recipe implements Serializable{
 	@Override
 	public String toString() {
 		return "Recipe [id=" + id + ", owner=" + owner + ", name=" + name + ", steps=" + steps
-				+ ", recipeUnitIngredients=" + recipeUnitIngredients + "]";
+				+ ", recipeUnitIngredients=" + recipeUnitIngredients + ", prepTime=" + prepTime + ", cookTime="
+				+ cookTime + "]";
 	}
-	
-	
 
+	
 }
