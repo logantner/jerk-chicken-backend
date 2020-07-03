@@ -9,17 +9,22 @@ public class IngredientBasketDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
+	private int category_id;
 	private String category;
 	public IngredientBasketDTO() {
 		super();
 	}
-	public IngredientBasketDTO(int id, String name, String category) {
+	
+	
+	public IngredientBasketDTO(int id, String name, int category_id, String category) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.category_id = category_id;
 		this.category = category;
 	}
-	
+
+
 	public int getId() {
 		return id;
 	}
@@ -38,6 +43,17 @@ public class IngredientBasketDTO implements Serializable{
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	
+	public int getCategory_id() {
+		return category_id;
+	}
+
+
+	public void setCategory_id(int category_id) {
+		this.category_id = category_id;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,8 +78,4 @@ public class IngredientBasketDTO implements Serializable{
 	public String toString() {
 		return "IngredientBasketDTO [id=" + id + ", name=" + name + ", category=" + category + "]";
 	}
-	
-	
-	
-	
 }
