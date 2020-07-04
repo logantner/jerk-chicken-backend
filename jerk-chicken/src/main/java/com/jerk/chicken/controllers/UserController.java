@@ -15,27 +15,27 @@ import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.services.UserService;
 
 @Controller
-@CrossOrigin
+@CrossOrigin("http://76.98.248.124:3000")
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
 	UserService us;
 	
-	@CrossOrigin
+
 	@PostMapping("/login")
 	@ResponseBody
 	public String login(@RequestBody User user) {
 		return us.login(user.getUsername());
 	}
 	
-	@CrossOrigin
+
 	@PostMapping("/register")
 	@ResponseBody
 	public User registerUser(@RequestBody User u) {
 		return us.registerUser(u);
 	}
 	
-	@CrossOrigin
+
 	@DeleteMapping("/")
 	@ResponseBody
 	public void deleteUser(@RequestBody User u) {
