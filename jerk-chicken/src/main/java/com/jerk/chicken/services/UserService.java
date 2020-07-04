@@ -30,7 +30,7 @@ public class UserService {
 	public String login(String user_name) {
 		//User u = new User();
 		//u.setUserName(parseObject(user_name));
-		User u = ur.findOneByUserName(user_name);
+		User u = ur.findOneByUsername(user_name);
 		
 		return generateJWT();
 	}

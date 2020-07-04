@@ -40,7 +40,7 @@ public class User implements Serializable{
 	private int id;
 	
 	
-	private String userName;
+	private String username;
 	
 	private String password;
 	
@@ -62,7 +62,7 @@ public class User implements Serializable{
 	}
 	
 	public User(String username, String password) {
-		this.userName = username;
+		this.username = username;
 		this.password = password;
 		this.userRoles = new ArrayList<>();
 		//this.ownedRecipes = new ArrayList<>();
@@ -73,7 +73,7 @@ public class User implements Serializable{
 			List<UserRecipe> favoriteRecipes) {
 		super();
 		this.id = id;
-		this.userName = userName;
+		this.username = userName;
 		this.password = password;
 		this.userRoles = userRoles;
 		//this.ownedRecipes = ownedRecipes;
@@ -88,12 +88,12 @@ public class User implements Serializable{
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -152,7 +152,7 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", userRoles=" + userRoles 
+		return "User [id=" + id + ", username=" + username + ", userRoles=" + userRoles 
 				+ ", favoriteRecipes=" + favoriteRecipes + "]";
 	}
 	

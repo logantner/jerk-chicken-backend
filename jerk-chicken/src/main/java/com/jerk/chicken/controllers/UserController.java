@@ -22,7 +22,7 @@ public class UserController {
 	@PostMapping("/login")
 	@ResponseBody
 	public String login(@RequestBody User user) {
-		return us.login(user.getUserName());
+		return us.login(user.getUsername());
 	}
 	
 	@PostMapping("/register")
