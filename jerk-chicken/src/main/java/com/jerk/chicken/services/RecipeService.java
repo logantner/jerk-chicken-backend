@@ -16,4 +16,16 @@ public class RecipeService {
 	public List<Recipe> getAllRecipes(){
 		return rr.findAll();
 	}
+	
+	public Recipe addRecipe(Recipe r) {
+		return rr.save(r);
+	}
+	
+	public void deleteRecipe(Recipe r) {
+		rr.delete(r);
+	}
+	
+	public Recipe updateRecipe(Recipe r) {
+		return rr.save(r);
+	}
 }
