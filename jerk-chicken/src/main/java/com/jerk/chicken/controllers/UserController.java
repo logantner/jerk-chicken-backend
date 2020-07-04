@@ -15,7 +15,7 @@ import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.services.UserService;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
