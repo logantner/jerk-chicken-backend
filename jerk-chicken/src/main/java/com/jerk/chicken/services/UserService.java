@@ -24,7 +24,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-@CrossOrigin("http://76.98.248.124:3000")
+@CrossOrigin("0.0.0.0/0")
 public class UserService {
 
 	@Autowired
