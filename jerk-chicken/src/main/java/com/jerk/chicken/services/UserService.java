@@ -24,7 +24,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-@CrossOrigin("0.0.0.0/0")
 public class UserService {
 
 	@Autowired

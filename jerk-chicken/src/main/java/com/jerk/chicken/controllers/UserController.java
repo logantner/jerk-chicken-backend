@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.services.UserService;
 
-@Controller
-@CrossOrigin("http://76.98.248.124:3000")
+@CrossOrigin
+@RestController
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
@@ -23,14 +24,12 @@ public class UserController {
 	
 
 	@PostMapping("/login")
-	@ResponseBody
 	public String login(@RequestBody User user) {
 		return us.login(user.getUsername());
 	}
 	
 
 	@PostMapping("/register")
-	@ResponseBody
 	public User registerUser(@RequestBody User u) {
 		return us.registerUser(u);
 	}
