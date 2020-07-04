@@ -15,7 +15,7 @@ import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.services.UserService;
 
 @Controller
-@CrossOrigin("0.0.0.0/0")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
