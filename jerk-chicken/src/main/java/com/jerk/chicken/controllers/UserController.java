@@ -2,6 +2,7 @@ package com.jerk.chicken.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.services.UserService;
 
 @Controller
+@CrossOrigin("0.0.0.0/0")
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
