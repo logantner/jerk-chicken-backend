@@ -8,36 +8,54 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
+import com.jerk.chicken.models.UserRole;
 import com.jerk.chicken.repositories.UserRecipeRepository;
 import com.jerk.chicken.repositories.UserRepository;
+import com.jerk.chicken.repositories.UserRoleRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-public class UserService {
+public class UserService{
 
 	@Autowired
 	UserRepository ur;
 
 	@Autowired
+	UserRoleRepository userRoleRepo;
+	
+	@Autowired
 	UserRecipeRepository urr;
 
-	public String login(String user_name) {
-		//User u = new User();
-		//u.setUserName(parseObject(user_name));
-		User u = ur.findOneByUsername(user_name);
+	public String login(User user) {
+		User u = ur.findByUsername(user.getUsername());
 		
-		return generateJWT();
+		BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
+			
+		if(u == null)
+			return String.format("User not found");
+		if(!bCrypt.matches(user.getPassword(), u.getPassword()))
+			 return String.format("Incorrect Password");
+			
+		List<UserRole> userroles = userRoleRepo.findByUserId(u.getId());
+		List<Role> roles = new ArrayList<>();
+				
+		for(UserRole userrole : userroles) {
+			Role role = new Role();
+			role.setId(userrole.getRole().getId());
+			role.setRole(userrole.getRole().getRole());
+			roles.add(role);
+		}
+			
+		return generateJWT(roles);
 	}
 
 	public String parseObject(String s) {
@@ -56,28 +74,15 @@ public class UserService {
 		return urr.save(new UserRecipe(0, u, r)).getRecipe();
 	}
 
-	private String generateJWT() {
+	private String generateJWT(List<Role> roles) {
 		Instant now = Instant.now();
-
-		List<Role> roles = new ArrayList<>();
-		roles.add(new Role(1,"admin"));
-		roles.add(new Role(2, "user"));
-		
-		String json = "";
-		
-		ObjectMapper om = new ObjectMapper();
-		try {
-			json = om.writeValueAsString(roles);
-		}catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		
+	
 		byte[] secret = Base64.getDecoder().decode("m+xugUWvhJ2d7q6JoObRztTm19A4e9CrlqhWVn+JGQs=");
-		String jwt = Jwts.builder().claim("roles", json).claim("username", "username").setIssuedAt(Date.from(now))
+		String jwt = Jwts.builder().claim("roles", roles).claim("username", "username").setIssuedAt(Date.from(now))
 				.setExpiration(Date.from(now.plus(24, ChronoUnit.HOURS))).signWith(SignatureAlgorithm.HS256, secret)
 				.compact();
 
 		return jwt;
 	}
+
 }

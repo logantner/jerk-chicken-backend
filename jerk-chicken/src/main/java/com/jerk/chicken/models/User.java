@@ -2,7 +2,9 @@ package com.jerk.chicken.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +30,7 @@ import org.springframework.stereotype.Component;
  */
 @Entity
 @Component
-@Table(name="jerk_user")
+@Table(name="users")
 public class User implements Serializable{
 
 
@@ -44,42 +46,41 @@ public class User implements Serializable{
 	
 	private String password;
 	
-	@Fetch(FetchMode.SELECT)
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<UserRole> userRoles;
-	
+	@OneToMany(mappedBy="role")
+	private Set<UserRole> roles;
 	
 //	@OneToMany(mappedBy="id", fetch = FetchType.EAGER)
 //	@Fetch(FetchMode.SELECT)
 //	private List<Integer> ownedRecipes;
-	
-	@Fetch(FetchMode.SELECT)
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<UserRecipe> favoriteRecipes;
+//	
+//	@Fetch(FetchMode.SELECT)
+//	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+//	private List<UserRecipe> favoriteRecipes;
 
 	public User() {
 		super();
+	
 	}
 	
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.userRoles = new ArrayList<>();
+		this.roles = new HashSet<UserRole>();
 		//this.ownedRecipes = new ArrayList<>();
-		this.favoriteRecipes = new ArrayList<>();
+	
 	}
 
-	public User(int id, String userName, String password, List<UserRole> userRoles, 
-			List<UserRecipe> favoriteRecipes) {
+	public User(int id, String userName, String password
+			) {
 		super();
 		this.id = id;
 		this.username = userName;
 		this.password = password;
-		this.userRoles = userRoles;
 		//this.ownedRecipes = ownedRecipes;
-		this.favoriteRecipes = favoriteRecipes;
+
 	}
 
+	
 	public int getId() {
 		return id;
 	}
@@ -104,12 +105,12 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public List<UserRole> getUserRoles() {
-		return userRoles;
+	public Set<UserRole> getUserRoles() {
+		return roles;
 	}
 
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.roles = userRoles;
 	}
 
 //	public List<Integer> getOwnedRecipes() {
@@ -120,12 +121,20 @@ public class User implements Serializable{
 //		this.ownedRecipes = ownedRecipes;
 //	}
 
-	public List<UserRecipe> getFavoriteRecipes() {
-		return favoriteRecipes;
-	}
+//	public List<UserRecipe> getFavoriteRecipes() {
+//		return favoriteRecipes;
+//	}
+//
+//	public void setFavoriteRecipes(List<UserRecipe> favoriteRecipes) {
+//		this.favoriteRecipes = favoriteRecipes;
+//	}
 
-	public void setFavoriteRecipes(List<UserRecipe> favoriteRecipes) {
-		this.favoriteRecipes = favoriteRecipes;
+	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", userRoles=" + roles ;
+				
 	}
 
 	@Override
@@ -150,11 +159,6 @@ public class User implements Serializable{
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", userRoles=" + userRoles 
-				+ ", favoriteRecipes=" + favoriteRecipes + "]";
-	}
 	
 	
 	

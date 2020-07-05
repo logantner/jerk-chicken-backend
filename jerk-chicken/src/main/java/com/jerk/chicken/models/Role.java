@@ -1,11 +1,15 @@
 package com.jerk.chicken.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
@@ -16,10 +20,13 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+//	@OneToMany(mappedBy = "role")
+//	private Set<UserRole> roles;
 	
 	private String role;
 
@@ -55,7 +62,21 @@ public class Role implements Serializable {
 		this.role = role;
 	}
 
+//	
+//
+//	public Set<UserRole> getRoles() {
+//		return roles;
+//	}
+//
+//
+//	public void setRoles(Set<UserRole> roles) {
+//		this.roles = roles;
+//	}
 
+
+	
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

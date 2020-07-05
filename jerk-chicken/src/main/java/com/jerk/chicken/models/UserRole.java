@@ -2,6 +2,7 @@ package com.jerk.chicken.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,9 +25,8 @@ public class UserRole implements Serializable {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="role_id")
+	@JoinColumn(name= "role_id")
 	private Role role;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -49,6 +49,7 @@ public class UserRole implements Serializable {
 	}
 
 
+	
 	public int getId() {
 		return id;
 	}
@@ -58,7 +59,6 @@ public class UserRole implements Serializable {
 		this.id = id;
 	}
 
-
 	public Role getRole() {
 		return role;
 	}
@@ -67,7 +67,6 @@ public class UserRole implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
 
 	public User getUser() {
 		return user;
@@ -87,7 +86,9 @@ public class UserRole implements Serializable {
 		this.isActive = isActive;
 	}
 
+
 	
+
 
 	@Override
 	public int hashCode() {
@@ -117,11 +118,5 @@ public class UserRole implements Serializable {
 	public String toString() {
 		return "UserRole [id=" + id + ", role=" + role + ", user=" + user + ", isActive=" + isActive + "]";
 	}
-
-
-	
-	
-	
-	
 
 }
