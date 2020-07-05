@@ -20,6 +20,8 @@ import com.jerk.chicken.services.RecipeService;
 @Controller
 @RequestMapping("/recipes")
 public class RecipeController {
+	
+	
 	@Autowired
 	RecipeService rs;
 	
