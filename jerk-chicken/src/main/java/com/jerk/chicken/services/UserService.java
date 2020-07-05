@@ -55,7 +55,7 @@ public class UserService{
 			roles.add(role);
 		}
 			
-		return generateJWT(roles);
+		return generateJWT(roles,u.getUsername());
 	}
 
 	public String parseObject(String s) {
@@ -74,11 +74,11 @@ public class UserService{
 		return urr.save(new UserRecipe(0, u, r)).getRecipe();
 	}
 
-	private String generateJWT(List<Role> roles) {
+	private String generateJWT(List<Role> roles, String username) {
 		Instant now = Instant.now();
 	
 		byte[] secret = Base64.getDecoder().decode("m+xugUWvhJ2d7q6JoObRztTm19A4e9CrlqhWVn+JGQs=");
-		String jwt = Jwts.builder().claim("roles", roles).claim("username", "username").setIssuedAt(Date.from(now))
+		String jwt = Jwts.builder().claim("roles", roles).claim("username", username).setIssuedAt(Date.from(now))
 				.setExpiration(Date.from(now.plus(24, ChronoUnit.HOURS))).signWith(SignatureAlgorithm.HS256, secret)
 				.compact();
 
