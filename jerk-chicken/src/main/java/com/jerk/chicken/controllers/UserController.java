@@ -1,13 +1,15 @@
 package com.jerk.chicken.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jerk.chicken.models.Recipe;
@@ -36,16 +38,19 @@ public class UserController {
 	
 
 	@DeleteMapping("/")
-	@ResponseBody
 	public void deleteUser(@RequestBody User u) {
 		us.deleteUser(u);
 	}
 	
-	@PostMapping("/add")
-	@ResponseBody
+	@PostMapping("/recipes")
 	public Recipe addRecipeToRecipeBook(@RequestBody UserRecipe ur) {
 		User u = ur.getUser();
 		Recipe r = ur.getRecipe();
 		return us.addRecipeToRecipeBook(r, u);
+	}
+	
+	@GetMapping("/recipes")
+	public List<Recipe> getUserRecipes(@RequestHeader("x-access-token") String token){
+		return us.getUserRecipes(token);
 	}
 }

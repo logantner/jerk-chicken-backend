@@ -12,7 +12,7 @@ import com.jerk.chicken.models.dto.IngredientBasketDTO;
 import com.jerk.chicken.services.IngredientService;
 
 @RestController
-@RequestMapping("/ingredient")
+@RequestMapping("/ingredients")
 public class IngredientController {
 
 	@Autowired
@@ -26,7 +26,7 @@ public class IngredientController {
 	 * method. Returns a list of IngredientBasketDTO objects.
 	 * </p>
 	 * 
-	 * @endpoint /ingredient/basket
+	 * @endpoint /ingredients/basket
 	 * @author James
 	 * @param category
 	 * @return

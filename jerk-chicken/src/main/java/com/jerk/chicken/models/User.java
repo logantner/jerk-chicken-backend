@@ -1,22 +1,19 @@
 package com.jerk.chicken.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -47,6 +44,7 @@ public class User implements Serializable{
 	private String password;
 	
 	@OneToMany(mappedBy="role")
+	@JsonIgnore
 	private Set<UserRole> roles;
 	
 //	@OneToMany(mappedBy="id", fetch = FetchType.EAGER)
