@@ -19,6 +19,7 @@ import com.jerk.chicken.models.UserRole;
 import com.jerk.chicken.repositories.UserRecipeRepository;
 import com.jerk.chicken.repositories.UserRepository;
 import com.jerk.chicken.repositories.UserRoleRepository;
+import com.jerk.chicken.util.JwtValidate;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -29,6 +30,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserService{
 
 	@Autowired
+	JwtValidate jwt;
+	
+	@Autowired
 	UserRepository userRepo;
 
 	@Autowired
@@ -36,8 +40,6 @@ public class UserService{
 	
 	@Autowired
 	UserRecipeRepository userRecipeRepo;
-	
-	private byte[] secret = Base64.getDecoder().decode("m+xugUWvhJ2d7q6JoObRztTm19A4e9CrlqhWVn+JGQs=");
 
 	public String login(User user) {
 		User u = userRepo.findByUsername(user.getUsername());
@@ -59,7 +61,7 @@ public class UserService{
 			roles.add(role);
 		}
 			
-		return generateJWT(roles,u);
+		return jwt.generateJWT(roles,u);
 	}
 
 	public String parseObject(String s) {
@@ -78,34 +80,12 @@ public class UserService{
 		return userRecipeRepo.save(new UserRecipe(0, u, r)).getRecipe();
 	}
 	
-	public List<Recipe> getUserRecipes(String token){
-		Jws<Claims> info = validateJWT(token);
-		int userId = (int) info.getBody().get("id");
+	public List<Recipe> getUserRecipes(int userId){
 		List<UserRecipe> userrecipes = userRecipeRepo.findByUserId(userId);
 		List<Recipe> recipes = new ArrayList<>();
 		for(UserRecipe u : userrecipes) {
 			recipes.add(u.getRecipe());
 		}
-		System.out.println(userrecipes.size());
-		//return recipes.get(0).getRecipe();	
 		return recipes;
 	}
-	
-	private Jws<Claims> validateJWT(String jwt) {
-		Jws<Claims> result = Jwts.parser()
-				.setSigningKey(secret)
-				.parseClaimsJws(jwt);
-		return result;
-	}
-
-	private String generateJWT(List<Role> roles, User user) {
-		Instant now = Instant.now();
-		String jwt = Jwts.builder().claim("roles", roles).claim("username", user.getUsername()).claim("id", user.getId())
-				.setIssuedAt(Date.from(now))
-				.setExpiration(Date.from(now.plus(24, ChronoUnit.HOURS))).signWith(SignatureAlgorithm.HS256, secret)
-				.compact();
-
-		return jwt;
-	}
-
 }
