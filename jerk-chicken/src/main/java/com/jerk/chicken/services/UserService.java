@@ -68,7 +68,12 @@ public class UserService{
 		return s.substring(s.indexOf('=') + 1);
 	}
 
-	public void deleteUser(User u) {
+	public void deleteUser(User u) {	
+		List<UserRole> userRolesToDelete = userRoleRepo.findByUserId(u.getId());
+		for(UserRole userrole : userRolesToDelete) {
+			userRoleRepo.deleteById(userrole.getId());
+		}
+		
 		userRepo.delete(u);
 	}
 

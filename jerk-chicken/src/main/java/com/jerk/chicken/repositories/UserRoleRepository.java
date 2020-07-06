@@ -10,5 +10,4 @@ import com.jerk.chicken.models.UserRole;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 	public List<UserRole> findByUserId(int id);
-
 }
