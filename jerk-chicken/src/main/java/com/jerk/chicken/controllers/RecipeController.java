@@ -25,27 +25,27 @@ public class RecipeController {
 	@Autowired
 	RecipeService rs;
 	
-	@GetMapping("/")
+	@GetMapping
 	@ResponseBody
 	public List<Recipe> getAllRecipes(){
 		return rs.getAllRecipes();
 	}
 	
-	@PostMapping("/")
+	@PostMapping
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	public Recipe addRecipe(@RequestBody Recipe r) {
 		return rs.addRecipe(r);
 	}
 	
-	@DeleteMapping("/")
+	@DeleteMapping
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteRecipe(@RequestBody Recipe r) {
 		rs.deleteRecipe(r);
 	}
 	
-	@PutMapping("/")
+	@PutMapping
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public Recipe updateRecipe(@RequestBody Recipe r) {
