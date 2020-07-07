@@ -9,5 +9,5 @@ import com.jerk.chicken.models.Recipe;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
-	
+	public List<Recipe> findByOwner(int id);
 }

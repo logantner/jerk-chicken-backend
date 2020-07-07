@@ -1,10 +1,6 @@
 package com.jerk.chicken.services;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +12,11 @@ import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.models.UserRole;
+import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.repositories.UserRecipeRepository;
 import com.jerk.chicken.repositories.UserRepository;
 import com.jerk.chicken.repositories.UserRoleRepository;
 import com.jerk.chicken.util.JwtValidate;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class UserService{
@@ -40,6 +32,9 @@ public class UserService{
 	
 	@Autowired
 	UserRecipeRepository userRecipeRepo;
+	
+	@Autowired
+	RecipeRepository recipeRepo;
 
 	public String login(User user) {
 		User u = userRepo.findByUsername(user.getUsername());
@@ -85,12 +80,16 @@ public class UserService{
 		return userRecipeRepo.save(new UserRecipe(0, u, r)).getRecipe();
 	}
 	
-	public List<Recipe> getUserRecipes(int userId){
+	public List<Recipe> getUserRecipeBook(int userId){
 		List<UserRecipe> userrecipes = userRecipeRepo.findByUserId(userId);
 		List<Recipe> recipes = new ArrayList<>();
 		for(UserRecipe u : userrecipes) {
 			recipes.add(u.getRecipe());
 		}
 		return recipes;
+	}
+	
+	public List<Recipe> getUserRecipes(int userId){
+		return recipeRepo.findByOwner(userId);
 	}
 }

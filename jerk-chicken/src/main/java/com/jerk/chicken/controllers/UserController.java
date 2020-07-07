@@ -58,9 +58,20 @@ public class UserController {
 		return us.addRecipeToRecipeBook(r, u);
 	}
 	
+	@GetMapping("/recipebook")
+	public ResponseEntity<List<Recipe>> getUserRecipeBook(@RequestHeader("x-access-token") String token){
+		int userId = (int) jwt.validateJwt(token, "id");
+		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
+		for(Role r : roles) {
+			if(r.getRole().equals("user")) {
+				return new ResponseEntity<>(us.getUserRecipeBook(userId), HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+	}
+	
 	@GetMapping("/recipes")
-	public ResponseEntity<List<Recipe>> getUserRecipes(@RequestHeader("x-access-token") String token){
-		//USER CHECK
+	public ResponseEntity<List<Recipe>> getUserRecipes(@RequestHeader("x-access-token")String token){
 		int userId = (int) jwt.validateJwt(token, "id");
 		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
 		for(Role r : roles) {
