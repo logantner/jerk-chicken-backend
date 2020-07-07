@@ -87,6 +87,7 @@ public class UserService{
 		UserRole userRole = new UserRole();
 		userRole.setRole(role);
 		userRole.setUser(u);
+		userRole.setActive(true);
 		userRoleRepo.save(userRole);
 		
 		List<Role> roles = new ArrayList<>();
