@@ -14,6 +14,7 @@ import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.models.UserRole;
 import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.repositories.RecipeRepository;
+import com.jerk.chicken.repositories.RoleRepository;
 import com.jerk.chicken.repositories.UserRecipeRepository;
 import com.jerk.chicken.repositories.UserRepository;
 import com.jerk.chicken.repositories.UserRoleRepository;
@@ -33,6 +34,9 @@ public class UserService{
 	
 	@Autowired
 	UserRecipeRepository userRecipeRepo;
+	
+	@Autowired
+	RoleRepository roleRepo; 
 	
 	@Autowired
 	RecipeRepository recipeRepo;
@@ -73,8 +77,24 @@ public class UserService{
 		userRepo.delete(u);
 	}
 
-	public User registerUser(User u) {
-		return userRepo.save(u);
+	public String registerUser(User u) {
+		BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
+		u.setPassword(bCrypt.encode(u.getPassword()));
+		u.setId(userRepo.save(u).getId());
+		
+		
+		Role role = roleRepo.findByRole("user");
+		UserRole userRole = new UserRole();
+		userRole.setRole(role);
+		userRole.setUser(u);
+		userRoleRepo.save(userRole);
+		
+		List<Role> roles = new ArrayList<>();
+		roles.add(role);
+		
+		String token = jwt.generateJWT(roles, u);
+		
+		return token;
 	}
 
 	public Recipe addRecipeToRecipeBook(Recipe r, User u) {
