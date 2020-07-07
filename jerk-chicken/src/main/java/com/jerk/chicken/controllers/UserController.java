@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jerk.chicken.models.Recipe;
@@ -44,13 +45,19 @@ public class UserController {
 	}
 	
 
-	@DeleteMapping("/")
-	public void deleteUser(@RequestBody User u) {
-		//ADMIN CHECK
-		us.deleteUser(u);
+	@DeleteMapping
+	public ResponseEntity deleteUser(@RequestBody User u, @RequestHeader("x-access-token") String token) {
+		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
+		for(Role r : roles) {
+			if(r.getRole().equals("admin")) {
+				us.deleteUser(u);
+				return new ResponseEntity(HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 	
-	@PostMapping("/recipes")
+	@PostMapping("/recipebook")
 	public Recipe addRecipeToRecipeBook(@RequestBody UserRecipe ur) {
 		//USER CHECK
 		User u = ur.getUser();
