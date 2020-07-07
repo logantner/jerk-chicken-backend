@@ -15,6 +15,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Component
 public class Recipe implements Serializable{
@@ -31,10 +33,12 @@ public class Recipe implements Serializable{
 	
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="recipe", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Step> steps;
 	
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="recipe", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<RecipeUnitIngredient> recipeUnitIngredients;
 	
 	private int prepTime;

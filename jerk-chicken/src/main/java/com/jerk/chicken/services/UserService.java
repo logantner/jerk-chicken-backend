@@ -12,6 +12,7 @@ import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.models.UserRole;
+import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.repositories.UserRecipeRepository;
 import com.jerk.chicken.repositories.UserRepository;
@@ -89,7 +90,20 @@ public class UserService{
 		return recipes;
 	}
 	
-	public List<Recipe> getUserRecipes(int userId){
-		return recipeRepo.findByOwner(userId);
+	public List<SimpleRecipeDTO> getUserRecipes(int userId){
+			
+		List<SimpleRecipeDTO> userRecipes = new ArrayList<>();
+		List<Recipe> recipes = recipeRepo.findByOwner(userId);
+		
+		for(Recipe r : recipes) {
+			SimpleRecipeDTO recipeDTO = new SimpleRecipeDTO();
+			
+			recipeDTO.setId(r.getId());
+			recipeDTO.setName(r.getName());
+			
+			userRecipes.add(recipeDTO);
+		}
+			
+		return userRecipes;
 	}
 }

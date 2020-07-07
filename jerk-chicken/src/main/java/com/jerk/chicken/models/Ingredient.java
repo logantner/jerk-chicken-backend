@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Component
@@ -29,9 +32,11 @@ public class Ingredient implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="category_id")
+	@JsonBackReference
 	private Category category;
 	
 	@OneToMany(mappedBy="ingredient", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<IngredientDescription> descriptions;
 
 	public Ingredient() {

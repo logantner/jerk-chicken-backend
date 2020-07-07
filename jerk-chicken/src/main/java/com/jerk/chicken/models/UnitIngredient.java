@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Component
@@ -24,10 +26,12 @@ public class UnitIngredient implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="unit_id")
+	@JsonBackReference
 	private Unit unit;
 	
 	@ManyToOne
 	@JoinColumn(name="ingredient_id")
+	@JsonBackReference
 	private Ingredient ingredient;
 
 	public UnitIngredient() {

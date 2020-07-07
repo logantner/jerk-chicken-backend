@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
+import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.services.UserService;
 import com.jerk.chicken.util.JwtValidate;
+
+
 
 @CrossOrigin
 @RestController
@@ -78,7 +80,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/recipes")
-	public ResponseEntity<List<Recipe>> getUserRecipes(@RequestHeader("x-access-token")String token){
+	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token")String token){
 		int userId = (int) jwt.validateJwt(token, "id");
 		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
 		for(Role r : roles) {

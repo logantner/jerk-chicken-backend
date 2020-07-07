@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.jerk.chicken.models.Recipe;
 
 @Repository
-public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
+public interface RecipeRepository extends JpaRepository<Recipe, Integer>, RecipeCustomRepository{
 	public List<Recipe> findByOwner(int id);
 }
