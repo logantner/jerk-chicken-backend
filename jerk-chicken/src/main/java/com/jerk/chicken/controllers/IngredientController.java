@@ -60,20 +60,43 @@ public class IngredientController {
 	// in development
 	@PostMapping("/strict-search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredientsStrict(@RequestBody List<Integer> ingredientIds){
-		List<SimpleRecipeDTO> recipes = null;
-		System.out.println(ingredientIds);
+		//System.out.println(ingredientIds);
 		
 		List<Ingredient> requestedIngredients = ingredientRepo.findByIdIn(ingredientIds);
 		
-		for(Ingredient i : requestedIngredients) {
-			System.out.println(i.getName());
-		}
+//		for(Ingredient i : requestedIngredients) {
+//			System.out.println(i.getName());
+//		}
 		
 		List<Recipe> recs = recipeRepo.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
 		
-		System.out.println(recs.get(0).getRecipeUnitIngredients().get(0).getUnitIngredient().getIngredient().getName());
+		//System.out.println(recs.get(0).getRecipeUnitIngredients().get(0).getUnitIngredient().getIngredient().getName());
 		
-		return recipes;
+		List<Recipe> returnedRecipes = new ArrayList<>();
+		
+		for(Recipe r : recs) {
+			boolean addToList = true;
+			List<Ingredient> recipeIngredients = new ArrayList<>();
+			for(int i=0; i < r.getRecipeUnitIngredients().size(); i++) {
+				recipeIngredients.add(r.getRecipeUnitIngredients().get(i).getUnitIngredient().getIngredient());
+			}
+			for(Ingredient i : recipeIngredients) {
+				if(requestedIngredients.contains(i)) continue;
+				else addToList = false;
+			}
+			if(addToList)returnedRecipes.add(r);
+		}
+		
+		List<SimpleRecipeDTO> result = new ArrayList<>();
+		for(Recipe r : returnedRecipes) {
+			SimpleRecipeDTO recipe = new SimpleRecipeDTO();
+			recipe.setId(r.getId());
+			recipe.setName(r.getName());
+			if(!result.contains(recipe))
+				result.add(recipe);
+		}
+		
+		return result;
 	}
 	
 	@PostMapping("/search")
