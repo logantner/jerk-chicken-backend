@@ -27,7 +27,7 @@ public class Recipe implements Serializable{
 	private int id;
 		
 	@Column(name="owner_id", nullable=true)
-	private int owner;
+	private Integer owner;
 	
 	private String name;
 	
