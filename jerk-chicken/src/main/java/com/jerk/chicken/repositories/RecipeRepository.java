@@ -10,6 +10,7 @@ import com.jerk.chicken.models.Recipe;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer>, RecipeCustomRepository{
 	public List<Recipe> findByOwner(int id);
+	public Recipe findById(int id);
 	List<Recipe> findByRecipeUnitIngredientsUnitIngredientIngredientId(int id);
 	List<Recipe> findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(List<Integer> ids);
 }

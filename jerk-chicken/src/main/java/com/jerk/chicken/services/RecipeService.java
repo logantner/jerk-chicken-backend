@@ -17,6 +17,10 @@ public class RecipeService {
 		return rr.findAll();
 	}
 	
+	public Recipe getRecipeById(int id) {
+		return rr.findById(id);
+	}
+	
 	public Recipe addRecipe(Recipe r) {
 		return rr.save(r);
 	}

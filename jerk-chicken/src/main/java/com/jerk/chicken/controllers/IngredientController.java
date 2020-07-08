@@ -60,18 +60,11 @@ public class IngredientController {
 	// in development
 	@PostMapping("/strict-search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredientsStrict(@RequestBody List<Integer> ingredientIds){
-		//System.out.println(ingredientIds);
 		
 		List<Ingredient> requestedIngredients = ingredientRepo.findByIdIn(ingredientIds);
 		
-//		for(Ingredient i : requestedIngredients) {
-//			System.out.println(i.getName());
-//		}
-		
 		List<Recipe> recs = recipeRepo.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
-		
-		//System.out.println(recs.get(0).getRecipeUnitIngredients().get(0).getUnitIngredient().getIngredient().getName());
-		
+				
 		List<Recipe> returnedRecipes = new ArrayList<>();
 		
 		for(Recipe r : recs) {
