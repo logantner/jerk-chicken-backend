@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jerk.chicken.models.Ingredient;
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.dto.IngredientBasketDTO;
 import com.jerk.chicken.models.dto.SimpleRecipeDTO;
+import com.jerk.chicken.repositories.IngredientRepository;
 import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.services.IngredientService;
 
@@ -28,6 +30,9 @@ public class IngredientController {
 
 	@Autowired
 	RecipeRepository recipeRepo;
+	
+	@Autowired
+	IngredientRepository ingredientRepo;
 	
 	/**
 	 * <h2>getBasketIngredients
@@ -52,14 +57,21 @@ public class IngredientController {
 	}
 	
 	
+	// in development
 	@PostMapping("/strict-search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredientsStrict(@RequestBody List<Integer> ingredientIds){
 		List<SimpleRecipeDTO> recipes = null;
 		System.out.println(ingredientIds);
 		
+		List<Ingredient> requestedIngredients = ingredientRepo.findByIdIn(ingredientIds);
 		
+		for(Ingredient i : requestedIngredients) {
+			System.out.println(i.getName());
+		}
 		
+		List<Recipe> recs = recipeRepo.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
 		
+		System.out.println(recs.get(0).getRecipeUnitIngredients().get(0).getUnitIngredient().getIngredient().getName());
 		
 		return recipes;
 	}

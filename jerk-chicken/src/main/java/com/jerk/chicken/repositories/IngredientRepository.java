@@ -10,5 +10,6 @@ import com.jerk.chicken.models.Ingredient;
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient,Integer> {
 	public List<Ingredient> getIngredientByCategoryCategory(String name);
+	public List<Ingredient> findByIdIn(List<Integer> ingredients);
 
 }
