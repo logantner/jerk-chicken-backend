@@ -2,6 +2,7 @@ package com.jerk.chicken.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,7 @@ public class Step implements Serializable{
 	
 	private int position;
 	
+	@Column(columnDefinition="TEXT")
 	private String instruction;
 
 	public Step() {

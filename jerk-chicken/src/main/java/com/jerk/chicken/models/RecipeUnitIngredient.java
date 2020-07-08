@@ -2,12 +2,14 @@ package com.jerk.chicken.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -33,6 +35,10 @@ public class RecipeUnitIngredient implements Serializable{
 	@JoinColumn(name="unit_ingredient_id")
 	@JsonBackReference
 	private UnitIngredient unitIngredient;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name= "ingredient_description_id", referencedColumnName="id")
+	private IngredientDescription ingredientDescription;
 	
 	private int qty;
 
@@ -78,6 +84,14 @@ public class RecipeUnitIngredient implements Serializable{
 
 	public void setQty(int qty) {
 		this.qty = qty;
+	}
+
+	public IngredientDescription getIngredientDescription() {
+		return ingredientDescription;
+	}
+
+	public void setIngredientDescription(IngredientDescription ingredientDescription) {
+		this.ingredientDescription = ingredientDescription;
 	}
 
 	@Override

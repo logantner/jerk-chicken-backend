@@ -41,9 +41,9 @@ public class Recipe implements Serializable{
 	@JsonManagedReference
 	private List<RecipeUnitIngredient> recipeUnitIngredients;
 	
-	private int prepTime;
+	private Integer prepTime;
 	
-	private int cookTime;
+	private Integer cookTime;
 
 	public Recipe() {
 		super();

@@ -3,10 +3,6 @@ package com.jerk.chicken.models.dto;
 import java.io.Serializable;
 
 public class SimpleRecipeDTO implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
