@@ -48,4 +48,35 @@ public class JwtValidate {
 		}
 		return roles;
 	}
+	public class UserData{
+		int id;
+		String username;
+		List<Role> roles;
+		
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getUsername() {
+			return username;
+		}
+		public void setUsername(String username) {
+			this.username = username;
+		}
+		public List<Role> getRoles() {
+			return roles;
+		}
+		public void setRoles(List<Role> roles) {
+			this.roles = roles;
+		}
+	}
+	public UserData getUserData(String token){
+		UserData u = new UserData();
+		u.setId((int)validateJwt(token, "id"));
+		u.setUsername((String)validateJwt(token,"username"));
+		u.setRoles(getRoles(validateJwt(token,"roles")));
+		return u;
+	}
 }

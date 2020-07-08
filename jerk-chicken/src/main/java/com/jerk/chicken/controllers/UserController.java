@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
-import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.services.UserService;
 import com.jerk.chicken.util.JwtValidate;
+import com.jerk.chicken.util.JwtValidate.UserData;
 
 
 
@@ -49,44 +49,37 @@ public class UserController {
 
 	@DeleteMapping
 	public ResponseEntity deleteUser(@RequestBody User u, @RequestHeader("x-access-token") String token) {
-		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
-		for(Role r : roles) {
-			if(r.getRole().equals("admin")) {
-				us.deleteUser(u);
-				return new ResponseEntity(HttpStatus.OK);
-			}
+		UserData user = jwt.getUserData(token);
+		if(user.getRoles().contains(new Role(1,"admin"))){
+			us.deleteUser(u);
+			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PostMapping("/recipebook")
-	public Recipe addRecipeToRecipeBook(@RequestBody UserRecipe ur) {
-		//USER CHECK
-		User u = ur.getUser();
-		Recipe r = ur.getRecipe();
-		return us.addRecipeToRecipeBook(r, u);
+	public ResponseEntity<Recipe> addRecipeToRecipeBook(@RequestBody Recipe recipe, @RequestHeader("x-access-token") String token) {
+		UserData user = jwt.getUserData(token);
+		if(user.getRoles().contains(new Role(2,"user"))) {
+			return new ResponseEntity<>(us.addRecipeToRecipeBook(recipe, user.getId()), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("/recipebook")
 	public ResponseEntity<List<Recipe>> getUserRecipeBook(@RequestHeader("x-access-token") String token){
-		int userId = (int) jwt.validateJwt(token, "id");
-		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
-		for(Role r : roles) {
-			if(r.getRole().equals("user")) {
-				return new ResponseEntity<>(us.getUserRecipeBook(userId), HttpStatus.OK);
-			}
+		UserData user = jwt.getUserData(token);
+		if(user.getRoles().contains(new Role(2,"user"))) {
+			return new ResponseEntity<>(us.getUserRecipeBook(user.getId()), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("/recipes")
 	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token")String token){
-		int userId = (int) jwt.validateJwt(token, "id");
-		List<Role> roles = jwt.getRoles(jwt.validateJwt(token, "roles"));
-		for(Role r : roles) {
-			if(r.getRole().equals("user")) {
-				return new ResponseEntity<>(us.getUserRecipes(userId), HttpStatus.OK);
-			}
+		UserData user = jwt.getUserData(token);
+		if(user.getRoles().contains(new Role(2,"user"))) {
+			return new ResponseEntity<>(us.getUserRecipes(user.getId()), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
