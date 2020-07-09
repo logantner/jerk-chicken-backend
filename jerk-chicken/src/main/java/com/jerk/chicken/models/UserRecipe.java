@@ -2,6 +2,7 @@ package com.jerk.chicken.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,7 @@ public class UserRecipe implements Serializable {
 	
 	
 	@ManyToOne
+	@Column(unique=true)
 	@JoinColumn(name="recipe_id")
 	private Recipe recipe;
 

@@ -93,9 +93,14 @@ public class UserService{
 		return token;
 	}
 
-	public Recipe addRecipeToRecipeBook(Recipe r, int u) {
+	public boolean addRecipeToRecipeBook(Recipe r, int u) {
 		User newUser = new User(u, "", "");
-		return userRecipeRepo.save(new UserRecipe(0, newUser, r)).getRecipe();
+		
+		UserRecipe userRecipe = userRecipeRepo.save(new UserRecipe(0, newUser, r));
+		if(userRecipe.getId() > 0)
+			return true;	
+		return false;
+		
 	}
 	
 	public List<Recipe> getUserRecipeBook(int userId){

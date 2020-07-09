@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -54,13 +55,22 @@ public class UserController {
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 	
-	@PostMapping("/recipebook")
-	public ResponseEntity<Recipe> addRecipeToRecipeBook(@RequestBody Recipe recipe, @RequestHeader("x-access-token") String token) {
+	@GetMapping("/recipebook/{id}")
+	public ResponseEntity<HttpStatus> addRecipeToRecipeBook( @PathVariable("id") int id,@RequestHeader("x-access-token") String token) {
 		UserData user = jwt.getUserData(token);
+		Recipe recipe = new Recipe();
+		recipe.setId(id);
+	System.out.println("here");
 		if(user.getRoles().contains(new Role(2,"user"))) {
-			return new ResponseEntity<>(us.addRecipeToRecipeBook(recipe, user.getId()), HttpStatus.OK);
+			boolean success = us.addRecipeToRecipeBook(recipe, user.getId());
+			if(success) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("/recipebook")
