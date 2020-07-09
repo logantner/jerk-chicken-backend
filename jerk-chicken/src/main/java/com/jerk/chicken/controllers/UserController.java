@@ -44,7 +44,6 @@ public class UserController {
 		return us.registerUser(u);
 	}
 	
-
 	@DeleteMapping
 	public ResponseEntity deleteUser(@RequestBody User u, @RequestHeader("x-access-token") String token) {
 		UserData user = jwt.getUserData(token);

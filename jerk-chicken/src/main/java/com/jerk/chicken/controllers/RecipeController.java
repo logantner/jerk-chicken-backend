@@ -11,21 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerk.chicken.models.Category;
 import com.jerk.chicken.models.Recipe;
-import com.jerk.chicken.models.RecipeUnitIngredient;
-import com.jerk.chicken.models.Step;
-import com.jerk.chicken.models.Unit;
 import com.jerk.chicken.models.dto.ComplexRecipeDTO;
-import com.jerk.chicken.models.dto.IngredientDTO;
-import com.jerk.chicken.models.dto.IngredientDescriptionDTO;
-import com.jerk.chicken.models.dto.StepDTO;
 import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.services.RecipeService;
+import com.jerk.chicken.util.JwtValidate;
+import com.jerk.chicken.util.JwtValidate.UserData;
 
 @CrossOrigin
 @RestController
@@ -37,6 +33,9 @@ public class RecipeController {
 
 	@Autowired
 	RecipeRepository recipeRepo;
+	
+	@Autowired
+	JwtValidate jwt;
 
 	@GetMapping
 	public List<Recipe> getAllRecipes() {
@@ -50,8 +49,9 @@ public class RecipeController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ComplexRecipeDTO addRecipe(@RequestBody ComplexRecipeDTO r) {
-		return rs.saveRecipe(r,1);
+	public ComplexRecipeDTO addRecipe(@RequestBody ComplexRecipeDTO r, @RequestHeader("x-access-token") String token) {
+		UserData user = jwt.getUserData(token);
+		return rs.saveRecipe(r,user.getId());
 	}
 
 	@DeleteMapping
@@ -62,7 +62,8 @@ public class RecipeController {
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ComplexRecipeDTO updateRecipe(@RequestBody ComplexRecipeDTO r) {
-		return rs.saveRecipe(r,1);
+	public ComplexRecipeDTO updateRecipe(@RequestBody ComplexRecipeDTO r, @RequestHeader("x-access-token") String token) {
+		UserData user = jwt.getUserData(token);
+		return rs.saveRecipe(r,user.getId());
 	}
 }
