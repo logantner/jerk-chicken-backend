@@ -30,8 +30,7 @@ public class UserRecipe implements Serializable {
 	
 	
 	@ManyToOne
-	@Column(unique=true)
-	@JoinColumn(name="recipe_id")
+	@JoinColumn(name="recipe_id",unique=true)
 	private Recipe recipe;
 
 
