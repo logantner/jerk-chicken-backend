@@ -31,109 +31,35 @@ import com.jerk.chicken.services.RecipeService;
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
-	
-	
+
 	@Autowired
 	RecipeService rs;
-	
-	
-	
+
 	@Autowired
 	RecipeRepository recipeRepo;
-	
+
 	@GetMapping
-	public List<Recipe> getAllRecipes(){
+	public List<Recipe> getAllRecipes() {
 		return rs.getAllRecipes();
 	}
-	
-	
 
 	@GetMapping("/{id}")
 	public ComplexRecipeDTO getRecipeById(@PathVariable("id") int id) {
-		ComplexRecipeDTO dto = new ComplexRecipeDTO();
-		Recipe recipe = recipeRepo.getOne(id);
-		
-		dto.setRecipe_id(recipe.getId());
-		dto.setName(recipe.getName());
-		dto.setCookTime(recipe.getCookTime());
-		dto.setPrepTime(recipe.getPrepTime());
-		
-		if(recipe.getSteps() != null) {
-			for(Step step : recipe.getSteps()) {
-				StepDTO stepDTO = new StepDTO();
-				stepDTO.setStep_id(step.getId());
-				stepDTO.setPosition(step.getPosition());
-				stepDTO.setInstruction(step.getInstruction());
-				dto.addStep(stepDTO);
-			}
-		}
-		
-		if(recipe.getRecipeUnitIngredients() != null) {
-			for(RecipeUnitIngredient unitIngredient : recipe.getRecipeUnitIngredients()) {
-				IngredientDTO ingredientDTO = new IngredientDTO();
-				ingredientDTO.setQty(unitIngredient.getQty());
-				ingredientDTO.setIngredient_id(unitIngredient.getUnitIngredient().getIngredient().getId());
-				ingredientDTO.setName(unitIngredient.getUnitIngredient().getIngredient().getName());
-				
-				if(unitIngredient.getUnitIngredient().getIngredient().getCategory() != null) {
-					Category category = new Category();
-					category.setId(unitIngredient.getUnitIngredient().getIngredient().getCategory().getId());
-					category.setCategory(unitIngredient.getUnitIngredient().getIngredient().getCategory().getCategory());
-					ingredientDTO.setCategory(category);
-				}
-				
-				if(unitIngredient.getUnitIngredient().getUnit() != null) {
-					Unit unit = new Unit();
-					unit.setId(unitIngredient.getUnitIngredient().getUnit().getId());
-					unit.setLongType(unitIngredient.getUnitIngredient().getUnit().getLongType());
-					unit.setShortType(unitIngredient.getUnitIngredient().getUnit().getShortType());
-					ingredientDTO.setUnit(unit);
-				}
-			
-				
-				if(unitIngredient.getIngredientDescription() != null) {
-					IngredientDescriptionDTO descriptionDTO = new IngredientDescriptionDTO();
-					descriptionDTO.setIngredient_description_id(unitIngredient.getIngredientDescription().getId());
-					descriptionDTO.setDescription(unitIngredient.getIngredientDescription().getDescription());
-					ingredientDTO.setIngredientDescription(descriptionDTO);
-				}
-				
-				
-				
-				
-				dto.addIngredient(ingredientDTO);
-		}
-		
-			
-			
-		}
-		
-		//System.out.println(recipe.getRecipeUnitIngredients().get(1).getUnitIngredient().getUnit().getLongType());
-		
-		
-		return dto;
+		return rs.getRecipeById(id);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Recipe addRecipe(@RequestBody Recipe r) {
 		return rs.addRecipe(r);
 	}
-	
+
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteRecipe(@RequestBody Recipe r) {
 		rs.deleteRecipe(r);
 	}
-	
+
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Recipe updateRecipe(@RequestBody Recipe r) {

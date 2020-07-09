@@ -48,65 +48,21 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/basket")
-	public List<IngredientBasketDTO> getBasketIngredients(
-			@RequestParam(name = "category", required = false) String category) {
+	public List<IngredientBasketDTO> getBasketIngredients(@RequestParam(name = "category", required = false) String category) {
 		if (category != null) {
 			return ingredientService.getBasketIngredientsByCategory(category);
 		}
 		return ingredientService.getAllBasketIngredients();
 	}
 	
-	
-	// in development
 	@PostMapping("/strict-search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredientsStrict(@RequestBody List<Integer> ingredientIds){
-		
-		List<Ingredient> requestedIngredients = ingredientRepo.findByIdIn(ingredientIds);
-		
-		List<Recipe> recs = recipeRepo.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
-				
-		List<Recipe> returnedRecipes = new ArrayList<>();
-		
-		for(Recipe r : recs) {
-			boolean addToList = true;
-			List<Ingredient> recipeIngredients = new ArrayList<>();
-			for(int i=0; i < r.getRecipeUnitIngredients().size(); i++) {
-				recipeIngredients.add(r.getRecipeUnitIngredients().get(i).getUnitIngredient().getIngredient());
-			}
-			for(Ingredient i : recipeIngredients) {
-				if(requestedIngredients.contains(i)) continue;
-				else addToList = false;
-			}
-			if(addToList)returnedRecipes.add(r);
-		}
-		
-		List<SimpleRecipeDTO> result = new ArrayList<>();
-		for(Recipe r : returnedRecipes) {
-			SimpleRecipeDTO recipe = new SimpleRecipeDTO();
-			recipe.setId(r.getId());
-			recipe.setName(r.getName());
-			if(!result.contains(recipe))
-				result.add(recipe);
-		}
-		
-		return result;
+		return ingredientService.strictsearch(ingredientIds);
 	}
 	
 	@PostMapping("/search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredients(@RequestBody List<Integer> ingredientIds){
-		List<SimpleRecipeDTO> recipes = new ArrayList<>();
-		List<Recipe> recs = recipeRepo.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
-		
-		
-		for(Recipe r : recs) {
-			SimpleRecipeDTO recipe = new SimpleRecipeDTO();
-			recipe.setId(r.getId());
-			recipe.setName(r.getName());
-			if(!recipes.contains(recipe))
-				recipes.add(recipe);
-		}
-		
-		return recipes;
+		return ingredientService.search(ingredientIds);
 	}
 
 }

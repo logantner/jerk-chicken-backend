@@ -7,14 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jerk.chicken.models.Ingredient;
+import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.dto.IngredientBasketDTO;
+import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.repositories.IngredientRepository;
+import com.jerk.chicken.repositories.RecipeRepository;
 
 @Service
 public class IngredientService {
 
 	@Autowired
 	IngredientRepository ingredientRepository;
+	@Autowired
+	RecipeRepository recipeRepository;
 
 	/**
 	 * <h2>getAllBasketIngredients
@@ -96,6 +101,54 @@ public class IngredientService {
 		}
 
 		return ingredients;
+	}
+	
+	public List<SimpleRecipeDTO> search(List<Integer> ingredientIds){
+		List<SimpleRecipeDTO> recipes = new ArrayList<>();
+		List<Recipe> recs = recipeRepository.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
+		
+		
+		for(Recipe r : recs) {
+			SimpleRecipeDTO recipe = new SimpleRecipeDTO();
+			recipe.setId(r.getId());
+			recipe.setName(r.getName());
+			if(!recipes.contains(recipe))
+				recipes.add(recipe);
+		}
+		
+		return recipes;
+	}
+	
+	
+	public List<SimpleRecipeDTO> strictsearch(List<Integer> ingredientIds){
+		
+		List<Ingredient> requestedIngredients = ingredientRepository.findByIdIn(ingredientIds);
+		List<Recipe> recs = recipeRepository.findByRecipeUnitIngredientsUnitIngredientIngredientIdIn(ingredientIds);
+		List<Recipe> returnedRecipes = new ArrayList<>();
+		
+		for(Recipe r : recs) {
+			boolean addToList = true;
+			List<Ingredient> recipeIngredients = new ArrayList<>();
+			for(int i=0; i < r.getRecipeUnitIngredients().size(); i++) {
+				recipeIngredients.add(r.getRecipeUnitIngredients().get(i).getUnitIngredient().getIngredient());
+			}
+			for(Ingredient i : recipeIngredients) {
+				if(requestedIngredients.contains(i)) continue;
+				else addToList = false;
+			}
+			if(addToList)returnedRecipes.add(r);
+		}
+		
+		List<SimpleRecipeDTO> result = new ArrayList<>();
+		for(Recipe r : returnedRecipes) {
+			SimpleRecipeDTO recipe = new SimpleRecipeDTO();
+			recipe.setId(r.getId());
+			recipe.setName(r.getName());
+			if(!result.contains(recipe))
+				result.add(recipe);
+		}
+		
+		return result;
 	}
 
 }

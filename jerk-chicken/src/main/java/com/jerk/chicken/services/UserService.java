@@ -25,19 +25,14 @@ public class UserService{
 
 	@Autowired
 	JwtValidate jwt;
-	
 	@Autowired
 	UserRepository userRepo;
-
 	@Autowired
 	UserRoleRepository userRoleRepo;
-	
 	@Autowired
 	UserRecipeRepository userRecipeRepo;
-	
 	@Autowired
 	RoleRepository roleRepo; 
-	
 	@Autowired
 	RecipeRepository recipeRepo;
 
