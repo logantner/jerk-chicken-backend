@@ -6,20 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jerk.chicken.models.Category;
+import com.jerk.chicken.models.Ingredient;
+import com.jerk.chicken.models.IngredientDescription;
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.RecipeUnitIngredient;
 import com.jerk.chicken.models.Step;
 import com.jerk.chicken.models.Unit;
+import com.jerk.chicken.models.UnitIngredient;
 import com.jerk.chicken.models.dto.ComplexRecipeDTO;
 import com.jerk.chicken.models.dto.IngredientDTO;
 import com.jerk.chicken.models.dto.IngredientDescriptionDTO;
 import com.jerk.chicken.models.dto.StepDTO;
 import com.jerk.chicken.repositories.RecipeRepository;
+import com.jerk.chicken.repositories.RecipeUnitIngredientRepository;
+import com.jerk.chicken.repositories.StepRepository;
+import com.jerk.chicken.repositories.UnitIngredientRepository;
 
 @Service
 public class RecipeService {
 	@Autowired
 	RecipeRepository rr;
+	
+	@Autowired
+	StepRepository stepRepo;
+	
+	@Autowired
+	RecipeUnitIngredientRepository recipeUnitIngredientRepo;
+	
+	@Autowired
+	UnitIngredientRepository unitIngredientRepo;
 	
 	public List<Recipe> getAllRecipes(){
 		return rr.findAll();
@@ -80,8 +95,69 @@ public class RecipeService {
 		return dto;
 	}
 	
-	public Recipe addRecipe(Recipe r) {
-		return rr.save(r);
+	
+	// need to pass userId
+	public ComplexRecipeDTO addRecipe(ComplexRecipeDTO r, int userId) {
+		Recipe recipe = new Recipe();
+		recipe.setName(r.getName());
+		recipe.setOwner(userId);
+		recipe.setPrepTime(r.getPrepTime());
+		recipe.setCookTime(r.getCookTime());
+		
+		recipe.setId(rr.save(recipe).getId());
+		r.setRecipe_id(recipe.getId());
+		
+		for(int x = 0; x < r.getSteps().size(); x++) {
+			StepDTO step = r.getSteps().get(x);
+			Step newStep = new Step();
+			newStep.setInstruction(step.getInstruction());
+			newStep.setPosition(step.getPosition());
+			newStep.setRecipe(recipe);
+			
+			step.setStep_id(stepRepo.save(newStep).getId());		
+		}
+		
+		for(int x = 0; x < r.getIngredients().size(); x++) {
+			IngredientDTO ingredientDTO = r.getIngredients().get(x);
+			
+			
+			UnitIngredient unitIngredient = unitIngredientRepo.findByUnitIdAndIngredientId(ingredientDTO.getUnit().getId(), ingredientDTO.getIngredient_id());
+			
+			if(unitIngredient == null) {
+				unitIngredient = new UnitIngredient();
+				Ingredient ingredient = new Ingredient();
+				ingredient.setId(ingredientDTO.getIngredient_id());
+				
+				Unit unit = new Unit();
+				unit.setId(ingredientDTO.getUnit().getId());
+				
+				unitIngredient.setIngredient(ingredient);
+				unitIngredient.setUnit(unit);
+				
+				unitIngredient = unitIngredientRepo.save(unitIngredient);
+				
+			}
+			
+			
+			RecipeUnitIngredient recipeUnitIngredient = new RecipeUnitIngredient();
+			recipeUnitIngredient.setQty(ingredientDTO.getQty());
+			recipeUnitIngredient.setRecipe(recipe);
+			
+			if(ingredientDTO.getIngredientDescription() != null) {
+				IngredientDescription ingredientDescription = new IngredientDescription();
+				ingredientDescription.setId(ingredientDTO.getIngredientDescription().getIngredient_description_id());
+				ingredientDescription.setDescription(ingredientDTO.getIngredientDescription().getDescription());
+				recipeUnitIngredient.setIngredientDescription(ingredientDescription);
+			}
+			
+			recipeUnitIngredient.setUnitIngredient(unitIngredient);
+			
+			recipeUnitIngredient.setId(recipeUnitIngredientRepo.save(recipeUnitIngredient).getId());
+				
+		}
+			
+		return r;
+
 	}
 	
 	public void deleteRecipe(Recipe r) {

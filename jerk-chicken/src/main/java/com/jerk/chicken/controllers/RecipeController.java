@@ -50,8 +50,11 @@ public class RecipeController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Recipe addRecipe(@RequestBody Recipe r) {
-		return rs.addRecipe(r);
+	public ComplexRecipeDTO addRecipe(@RequestBody ComplexRecipeDTO r) {
+		
+		
+		
+		return rs.addRecipe(r,1);
 	}
 
 	@DeleteMapping

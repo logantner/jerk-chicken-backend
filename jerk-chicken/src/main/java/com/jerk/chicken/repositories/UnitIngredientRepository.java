@@ -7,5 +7,5 @@ import com.jerk.chicken.models.UnitIngredient;
 
 @Repository
 public interface UnitIngredientRepository extends JpaRepository<UnitIngredient,Integer> {
-
+	UnitIngredient findByUnitIdAndIngredientId(int unitId, int ingredientId);
 }
