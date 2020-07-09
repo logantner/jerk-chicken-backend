@@ -74,7 +74,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/recipebook")
-	public ResponseEntity<List<Recipe>> getUserRecipeBook(@RequestHeader("x-access-token") String token){
+	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipeBook(@RequestHeader("x-access-token") String token){
 		UserData user = jwt.getUserData(token);
 		if(user.getRoles().contains(new Role(2,"user"))) {
 			return new ResponseEntity<>(us.getUserRecipeBook(user.getId()), HttpStatus.OK);

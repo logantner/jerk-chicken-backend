@@ -103,11 +103,14 @@ public class UserService{
 		
 	}
 	
-	public List<Recipe> getUserRecipeBook(int userId){
+	public List<SimpleRecipeDTO> getUserRecipeBook(int userId){
 		List<UserRecipe> userrecipes = userRecipeRepo.findByUserId(userId);
-		List<Recipe> recipes = new ArrayList<>();
+		List<SimpleRecipeDTO> recipes = new ArrayList<>();
 		for(UserRecipe u : userrecipes) {
-			recipes.add(u.getRecipe());
+			SimpleRecipeDTO dto = new SimpleRecipeDTO();
+			dto.setId(u.getId());
+			dto.setName(u.getRecipe().getName());
+			recipes.add(dto);
 		}
 		return recipes;
 	}
