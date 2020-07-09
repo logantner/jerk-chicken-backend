@@ -22,8 +22,6 @@ import com.jerk.chicken.services.UserService;
 import com.jerk.chicken.util.JwtValidate;
 import com.jerk.chicken.util.JwtValidate.UserData;
 
-
-
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
