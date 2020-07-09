@@ -51,10 +51,7 @@ public class RecipeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ComplexRecipeDTO addRecipe(@RequestBody ComplexRecipeDTO r) {
-		
-		
-		
-		return rs.addRecipe(r,1);
+		return rs.saveRecipe(r,1);
 	}
 
 	@DeleteMapping
@@ -65,7 +62,7 @@ public class RecipeController {
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Recipe updateRecipe(@RequestBody Recipe r) {
-		return rs.updateRecipe(r);
+	public ComplexRecipeDTO updateRecipe(@RequestBody ComplexRecipeDTO r) {
+		return rs.saveRecipe(r,1);
 	}
 }

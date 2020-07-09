@@ -97,19 +97,27 @@ public class RecipeService {
 	
 	
 	// need to pass userId
-	public ComplexRecipeDTO addRecipe(ComplexRecipeDTO r, int userId) {
+	public ComplexRecipeDTO saveRecipe(ComplexRecipeDTO r, int userId) {
 		Recipe recipe = new Recipe();
 		recipe.setName(r.getName());
 		recipe.setOwner(userId);
 		recipe.setPrepTime(r.getPrepTime());
 		recipe.setCookTime(r.getCookTime());
 		
+		if(r.getRecipe_id() > 0) {
+			recipe.setId(r.getRecipe_id());
+		}
 		recipe.setId(rr.save(recipe).getId());
 		r.setRecipe_id(recipe.getId());
 		
 		for(int x = 0; x < r.getSteps().size(); x++) {
 			StepDTO step = r.getSteps().get(x);
 			Step newStep = new Step();
+			
+			if(step.getStep_id() > 0) {
+				newStep.setId(step.getStep_id());
+			}
+			
 			newStep.setInstruction(step.getInstruction());
 			newStep.setPosition(step.getPosition());
 			newStep.setRecipe(recipe);
@@ -161,10 +169,8 @@ public class RecipeService {
 	}
 	
 	public void deleteRecipe(Recipe r) {
+		
+		
 		rr.delete(r);
-	}
-	
-	public Recipe updateRecipe(Recipe r) {
-		return rr.save(r);
 	}
 }
