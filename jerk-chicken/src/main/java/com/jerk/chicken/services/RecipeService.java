@@ -21,6 +21,7 @@ import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.repositories.RecipeUnitIngredientRepository;
 import com.jerk.chicken.repositories.StepRepository;
 import com.jerk.chicken.repositories.UnitIngredientRepository;
+import com.jerk.chicken.repositories.UserRecipeRepository;
 
 @Service
 public class RecipeService {
@@ -36,6 +37,10 @@ public class RecipeService {
 	@Autowired
 	UnitIngredientRepository unitIngredientRepo;
 	
+	@Autowired
+	UserRecipeRepository userRecipeRepo;
+	
+		
 	public List<Recipe> getAllRecipes(){
 		return rr.findAll();
 	}
@@ -169,8 +174,9 @@ public class RecipeService {
 	}
 	
 	public void deleteRecipe(Recipe r) {
-		
-		
-		rr.delete(r);
+		stepRepo.removeByRecipeId(r.getId());
+		userRecipeRepo.removeByRecipeId(r.getId());
+		recipeUnitIngredientRepo.removeByRecipeId(r.getId());
+		rr.deleteByRecipeId(r.getId());
 	}
 }

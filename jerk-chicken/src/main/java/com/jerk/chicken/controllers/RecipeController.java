@@ -54,9 +54,11 @@ public class RecipeController {
 		return rs.saveRecipe(r,user.getId());
 	}
 
-	@DeleteMapping
+	@DeleteMapping("{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteRecipe(@RequestBody Recipe r) {
+	public void deleteRecipe(@PathVariable("id")int id) {
+		Recipe r = new Recipe();
+		r.setId(id);
 		rs.deleteRecipe(r);
 	}
 
