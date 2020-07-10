@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jerk.chicken.models.Ingredient;
 import com.jerk.chicken.models.Recipe;
+import com.jerk.chicken.models.RecipeUnitIngredient;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.UserRecipe;
 import com.jerk.chicken.models.UserRole;
 import com.jerk.chicken.models.dto.SimpleRecipeDTO;
+import com.jerk.chicken.repositories.IngredientRepository;
 import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.repositories.RoleRepository;
 import com.jerk.chicken.repositories.UserRecipeRepository;
@@ -35,6 +38,8 @@ public class UserService{
 	RoleRepository roleRepo; 
 	@Autowired
 	RecipeRepository recipeRepo;
+	@Autowired
+	IngredientRepository ingredientRepo;
 
 	public String login(User user) {
 		User u = userRepo.findByUsername(user.getUsername());
@@ -132,13 +137,52 @@ public class UserService{
 		return userRecipes;
 	}
 	
-	public List<SimpleRecipeDTO> getUserRecipesByIngredientSearch(int userId,List<Integer> ingredientIds){
-		List<SimpleRecipeDTO> recipes = null;
+	public List<SimpleRecipeDTO> getUserRecipesByIngredientSearch(int userId, List<Integer> ingredientIds){
+		List<SimpleRecipeDTO> recipes = new ArrayList<>();
 		
 		List<UserRecipe> userRecipes = userRecipeRepo.findByUserId(userId);
 		
+		for(UserRecipe r : userRecipes) {
+			for(RecipeUnitIngredient rui : r.getRecipe().getRecipeUnitIngredients()){
+				if(ingredientIds.contains(rui.getUnitIngredient().getIngredient().getId())) {
+					SimpleRecipeDTO dto = new SimpleRecipeDTO();
+					dto.setId(r.getRecipe().getId());
+					dto.setName(r.getRecipe().getName());
+					if(!recipes.contains(dto)) {
+						recipes.add(dto);	
+					}
+					break;
+				}
+				
+			}
+		}		
+		return recipes;	
+	}
+	
+	public List<SimpleRecipeDTO> getUserRecipesByIngredientStrictSearch(int userId, List<Integer> ingredientIds){
+		List<SimpleRecipeDTO> recipes = new ArrayList<>();
 		
+		List<Ingredient> requestedIngredients = ingredientRepo.findByIdIn(ingredientIds);
+		List<UserRecipe> userRecipes = userRecipeRepo.findByUserId(userId);
+	
+		for(UserRecipe r : userRecipes) {
+			boolean addToList = true;
+			List<Ingredient> recipeIngredients = new ArrayList<>();
+			for(RecipeUnitIngredient rui : r.getRecipe().getRecipeUnitIngredients()){
+				recipeIngredients.add(rui.getUnitIngredient().getIngredient());
+			}
+			for(Ingredient i : recipeIngredients) {
+				if(requestedIngredients.contains(i)) continue;
+				else addToList = false;
+			}
+			if(addToList) {
+				SimpleRecipeDTO recipe = new SimpleRecipeDTO();
+				recipe.setId(r.getRecipe().getId());
+				recipe.setName(r.getRecipe().getName());
+				if(!recipes.contains(recipe))
+					recipes.add(recipe);
+			}
+		}
 		return recipes;
-		
 	}
 }

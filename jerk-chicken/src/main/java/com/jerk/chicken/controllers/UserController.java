@@ -19,6 +19,7 @@ import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.User;
 import com.jerk.chicken.models.dto.SimpleRecipeDTO;
+import com.jerk.chicken.repositories.IngredientRepository;
 import com.jerk.chicken.services.UserService;
 import com.jerk.chicken.util.JwtValidate;
 import com.jerk.chicken.util.JwtValidate.UserData;
@@ -30,6 +31,10 @@ public class UserController {
 
 	@Autowired
 	UserService us;
+	
+	@Autowired
+	IngredientRepository ingredientRepo;
+	
 	@Autowired
 	JwtValidate jwt;
 
@@ -81,14 +86,42 @@ public class UserController {
 	}
 
 	@PostMapping("/search/recipebook")
-	public ResponseEntity<List<SimpleRecipeDTO>> getRecipeBookRecipesByIngredientSearch(@RequestHeader("x-access-token") String token){
+	public ResponseEntity<List<SimpleRecipeDTO>> getRecipeBookRecipesByIngredientSearch(@RequestHeader("x-access-token") String token, @RequestBody List<Integer> ingredientIds){
 		UserData user = jwt.getUserData(token);
 		if(user.getRoles().contains(new Role(2, "user"))) {
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			return new ResponseEntity<>(us.getUserRecipesByIngredientSearch(user.getId(), ingredientIds), HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
+	
+	@PostMapping("/strict-search/recipebook")
+	public ResponseEntity<List<SimpleRecipeDTO>> getRecipeBookRecipesByIngredientStrictSearch(@RequestHeader("x-access-token") String token, @RequestBody List<Integer> ingredientIds){
+		UserData user = jwt.getUserData(token);
+		if(user.getRoles().contains(new Role(2, "user"))) {
+			return new ResponseEntity<>(us.getUserRecipesByIngredientStrictSearch(user.getId(), ingredientIds), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@GetMapping("/recipes")
 	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token") String token) {
