@@ -105,24 +105,6 @@ public class UserController {
 		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@GetMapping("/recipes")
 	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token") String token) {
 		UserData user = jwt.getUserData(token);
