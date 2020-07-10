@@ -4,7 +4,6 @@
 #### Login:
 Path: `/users`
 
-
 Method: POST  
 Body: A JSON containing `{username, password}`  
 Returns: A token containing...
