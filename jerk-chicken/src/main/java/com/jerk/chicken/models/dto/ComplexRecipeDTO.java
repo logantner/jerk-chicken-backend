@@ -14,6 +14,8 @@ public class ComplexRecipeDTO implements Serializable {
 	private int cookTime;
 	
 	private int prepTime;
+	
+	private int ownerId;
 
 	private List<StepDTO> steps;
 	
@@ -86,6 +88,16 @@ public class ComplexRecipeDTO implements Serializable {
 
 	public void setIngredients(List<IngredientDTO> ingredients) {
 		this.ingredients = ingredients;
+	}
+	
+	
+
+	public int getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(int ownerId) {
+		this.ownerId = ownerId;
 	}
 
 	@Override

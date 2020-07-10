@@ -53,6 +53,11 @@ public class RecipeService {
 		dto.setName(recipe.getName());
 		dto.setCookTime(recipe.getCookTime());
 		dto.setPrepTime(recipe.getPrepTime());
+		
+		if(recipe.getOwner() > 0 )
+		{
+			dto.setOwnerId(recipe.getOwner());
+		}
 
 		if (recipe.getSteps() != null) {
 			for (Step step : recipe.getSteps()) {
