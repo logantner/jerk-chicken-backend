@@ -70,11 +70,11 @@ Returns: List of complex recipes JSONs containing...
 - `recipe`
 - `prepTime`  
 - `cookTime`  
-- `steps` collection of step objects
+- `steps`: collection of step objects
     - `id`
     - `position`  
     - `instruction`  
-- `recipe_ingredients` collection of ingredient ids
+- `recipe_ingredients`: collection of ingredient ids
     - `id`  
     - `ingredientDescription`
     - `qty`  
@@ -114,7 +114,7 @@ Returns: A detailed recipe JSON containing...
 - `cookTime`
 - `prepTime`
 - `ownerId`   
-- `steps` collection of step objects
+- `steps`: collection of step objects
     - `step_id`
     - `position`
     - `instruction`  
@@ -122,14 +122,14 @@ Returns: A detailed recipe JSON containing...
     - `ingredient_id`
     - `name`  
     - `qty`
-    - `category` object
+    - `category`: object
         - `id`  
         - `category`  
-    - `unit` object
+    - `unit`: object
         - `id`  
         - `shortType`   
         - `longType`  
-    - `ingredientDescription` object
+    - `ingredientDescription`: object
         - `ingredient_description_id`
         - `description`
 
@@ -162,20 +162,20 @@ Body: A recipe JSON containing the following:
 - `cookTime`
 - `prepTime`
 - `ownerId`   
-- `steps` collection of step objects
+- `steps`: collection of step objects
     - `position`
     - `instruction`  
 - `ingredients`: a collection of ingredient objects
     - `ingredient_id` 
     - `qty`
-    - `category` object
+    - `category`: object
         - `id`  
         - `category`  
-    - `unit` object
+    - `unit`: object
         - `id`  
         - `shortType`   
         - `longType`  
-    - `ingredientDescription` object
+    - `ingredientDescription`: object
         - `ingredient_description_id`
         - `description`
 
@@ -185,5 +185,5 @@ Returns: Recipe with recipe_id and step_id(s) populated
 (User info deduced from token)  
 Path: `/users/recipebook/{id}`    
 Method: GET  
-Param: `recipe_id` required
+Param: `recipe_id` (required)   
 Returns: None
