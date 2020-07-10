@@ -91,10 +91,10 @@ public class UserController {
 	}
 
 	@GetMapping("/recipes")
-	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token") String token, @RequestBody List<Integer> ingredientIds) {
+	public ResponseEntity<List<SimpleRecipeDTO>> getUserRecipes(@RequestHeader("x-access-token") String token) {
 		UserData user = jwt.getUserData(token);
 		if (user.getRoles().contains(new Role(2, "user"))) {
-			return new ResponseEntity<>(us.getUserRecipesByIngredientSearch(user.getId(), ingredientIds), HttpStatus.OK);
+			return new ResponseEntity<>(us.getUserRecipes(user.getId()), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 	}
