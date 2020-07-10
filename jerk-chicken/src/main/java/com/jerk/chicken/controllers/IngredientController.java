@@ -55,6 +55,9 @@ public class IngredientController {
 		return ingredientService.getAllBasketIngredients();
 	}
 	
+	
+	
+	
 	@PostMapping("/strict-search")
 	public List<SimpleRecipeDTO> getSimpleRecipeByIngredientsStrict(@RequestBody List<Integer> ingredientIds){
 		return ingredientService.strictsearch(ingredientIds);

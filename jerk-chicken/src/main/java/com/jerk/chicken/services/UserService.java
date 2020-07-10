@@ -108,7 +108,7 @@ public class UserService{
 		List<SimpleRecipeDTO> recipes = new ArrayList<>();
 		for(UserRecipe u : userrecipes) {
 			SimpleRecipeDTO dto = new SimpleRecipeDTO();
-			dto.setId(u.getId());
+			dto.setId(u.getRecipe().getId());
 			dto.setName(u.getRecipe().getName());
 			recipes.add(dto);
 		}
@@ -130,5 +130,15 @@ public class UserService{
 		}
 			
 		return userRecipes;
+	}
+	
+	public List<SimpleRecipeDTO> getUserRecipesByIngredientSearch(int userId,List<Integer> ingredientIds){
+		List<SimpleRecipeDTO> recipes = null;
+		
+		List<UserRecipe> userRecipes = userRecipeRepo.findByUserId(userId);
+		
+		
+		return recipes;
+		
 	}
 }

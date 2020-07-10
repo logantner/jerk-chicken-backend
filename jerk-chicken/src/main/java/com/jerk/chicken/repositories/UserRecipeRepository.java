@@ -18,4 +18,5 @@ public interface UserRecipeRepository extends JpaRepository<UserRecipe,Integer>{
 	@Modifying
 	@Query(value="DELETE FROM user_recipe WHERE recipe_id = ?1", nativeQuery = true)
 	void removeByRecipeId(Integer id);
+	
 }

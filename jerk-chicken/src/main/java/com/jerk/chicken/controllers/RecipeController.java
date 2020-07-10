@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jerk.chicken.models.Recipe;
 import com.jerk.chicken.models.Role;
 import com.jerk.chicken.models.dto.ComplexRecipeDTO;
+import com.jerk.chicken.models.dto.SimpleRecipeDTO;
 import com.jerk.chicken.repositories.RecipeRepository;
 import com.jerk.chicken.services.RecipeService;
 import com.jerk.chicken.util.JwtValidate;
@@ -39,6 +40,11 @@ public class RecipeController {
 	@Autowired
 	JwtValidate jwt;
 
+	
+	
+	
+
+	
 	@GetMapping
 	public List<Recipe> getAllRecipes() {
 		return rs.getAllRecipes();

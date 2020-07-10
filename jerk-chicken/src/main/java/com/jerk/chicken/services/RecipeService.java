@@ -106,7 +106,7 @@ public class RecipeService {
 	}
 	
 	
-	// need to pass userId
+	
 	public ComplexRecipeDTO saveRecipe(ComplexRecipeDTO r, int userId) {
 		Recipe recipe = new Recipe();
 		recipe.setName(r.getName());
