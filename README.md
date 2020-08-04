@@ -19,7 +19,6 @@ Returns: A token containing
 - `username`
 - `roles` (a list of the user roles)
 
-
 # Ingredient-Related Endpoints
   
 ## Ingredient Searching
