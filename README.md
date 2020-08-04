@@ -10,6 +10,7 @@ Returns: A token containing...
 - `username`
 - `roles` (a list of the user roles)
 
+
 #### Register New Account:
 Path: `/users/register`     
 Method: POST  
