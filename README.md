@@ -21,7 +21,7 @@ Returns: A token containing
 
 
 # Ingredient-Related Endpoints
-
+  
 ## Ingredient Searching
 
 #### Get All Categories:
