@@ -46,7 +46,7 @@ Method: GET
 Params: `IngredientId` (required)  
 Returns: List of description JSONs containing...
 - `id` (for description)
-- `description`  
+- `description`    
 
 # Unit-Related Endpoints
 
